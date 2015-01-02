@@ -1,10 +1,55 @@
 var program = require('commander')
 	, pkg = require('./package.json')
 	, url = require('url')
+	, fs = require('fs')
 
 var urlValidator = function (theUrl) {
 	var reUrl = /^https?:\/\/(?:(\w+)(?:[:](\w+))?[@])?([A-Za-z0-9-]+(?:[.][A-Za-z0-9-]+)*|(\d{1,3}(?:[.]\d{1,3}){3}))[:](\d+)$/
 	return reUrl.exec(theUrl) === null? false: theUrl
+}
+
+var loadSettings = function () {
+	var settings = {}
+		, keys = ['http', 'https', 'same']
+		, obj = {}
+		, props
+	console.log('Loading settings...')
+
+	try {
+		settings = fs.readFileSync('./settings.json')
+		settings = JSON.parse(settings)
+		props = Object.getOwnPropertyNames(settings)
+	} catch (e) {
+		return false
+	}
+
+	if (props === 0) {
+		return false
+	}
+
+	keys.forEach(function (key) {
+		obj[key] = settings[key]
+	})
+	return obj
+}
+
+var saveSettings = function (options) {
+	var settings = {}
+		, keys = ['http', 'https', 'same']
+	console.log('Saving settings...')
+
+	keys.forEach(function (key) {
+		settings[key] = options[key]
+	})
+	console.log('settings=', JSON.stringify(settings))
+
+	fs.writeFile('./settings.json', JSON.stringify(settings), function (err) {
+		if (err) {
+			console.log('Warning: Cannot write settings to settings.json')
+		} else {
+			console.log('Settings saved successfuly')
+		}
+	})
 }
 
 program
@@ -43,20 +88,24 @@ program
 		}
 
 		if (options.http === undefined && options.https === undefined) {
-			// TODO: loadSettings
-			console.log('Loading settings...')
+			var opts = loadSettings()
+			if (opts === false) {
+				console.log('Error: No configuration saved previously')
+				this.outputHelp()
+				process.exit(3)
+			}
+			console.log('Options loaded:', opts)
 		} else if(options.save) {
-			// TODO: saveSettings
-			console.log('Saving settings...')
+			saveSettings(options)
 		}
 
-		if (options.same) {
-			if (options.http && options.https === undefined) {
+		if (options.same === true) {
+			if (options.http !== undefined && options.https === undefined) {
 				options.https = options.http
 			} else {
 				console.log('Error: Cannot use the same http proxy for https if http is not defined')
 				this.outputHelp()
-				process.exit(3)
+				process.exit(4)
 			}
 		}
 
