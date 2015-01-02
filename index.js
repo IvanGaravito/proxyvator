@@ -2,28 +2,9 @@ var program = require('commander')
 	, pkg = require('./package.json')
 	, url = require('url')
 
-var urlFixer = function (theUrl) {
-	var urlObj = url.parse(theUrl)
-		, obj = {}
-		, keys = ['protocol', 'slashes', 'auth', 'hostname']
-		, str
-
-	keys.forEach(function (key) {
-		obj[key] = urlObj[key]
-	})
-
-	if (obj.protocol === undefined || obj.hostname === undefined) {
-		return false
-	}
-
-	obj.port = urlObj.port? urlObj.port: 8080
-	str = url.format(obj)
-	if (str === '') {
-		return false
-	}
-
-	// TODO: validate str as a url
-	return str
+var urlValidator = function (theUrl) {
+	var reUrl = /^https?:\/\/(?:(\w+)(?:[:](\w+))?[@])?([A-Za-z0-9-]+(?:[.][A-Za-z0-9-]+)*|(\d{1,3}(?:[.]\d{1,3}){3}))[:](\d+)$/
+	return reUrl.exec(theUrl) === null? false: theUrl
 }
 
 program
@@ -33,8 +14,8 @@ program
 program
 	.command('setup')
 	.description('setup configuration for developing behind the proxy')
-  .option('--http <url>', 'set url for http proxy (e.g. http://myproxy.com:8080)', urlFixer)
-  .option('--https <url>', 'set url for https proxy (e.g. https://me:mypass@myproxy.com:443', urlFixer)
+  .option('--http <url>', 'set url for http proxy (e.g. http://myproxy.com:8080)', urlValidator)
+  .option('--https <url>', 'set url for https proxy (e.g. https://me:mypass@myproxy.com:443', urlValidator)
   .option('--same', 'use the same http proxy for https')
   .option('--save', 'save settings')
 	.action(function (options) {
