@@ -2,6 +2,7 @@ var program = require('commander')
 
 var pkg = require('./package.json')
 	, common = require('./common.js')
+	, plugins = require('./plugins.js')
 
 program
   .version(pkg.version)
@@ -48,15 +49,23 @@ program
 		options.home = process.env.HOME
 		common.debug('HOME=', options.home)
 
-		// TODO: setup
+		console.log('Setting up...')
+		plugins.setup(options)
 	})
 
 program
   .command('clear')
   .description('clear configuration for developing behind the proxy')
 	.action(function () {
+		var self = this
+
+		common.setHelpFn(function () {
+			self.outputHelp()
+		})
+		common.setDebug(options.parent.debug)
+
 		console.log('Clearing...')
-		// TODO: clear
+		plugins.clear()
 	})
 
 program.parse(process.argv)
