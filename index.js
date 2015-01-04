@@ -56,13 +56,13 @@ program
 program
   .command('clear')
   .description('clear configuration for developing behind the proxy')
-	.action(function () {
+	.action(function (options) {
 		var self = this
 
 		common.setHelpFn(function () {
 			self.outputHelp()
 		})
-		common.setDebug(options.parent.debug)
+		if (options !== undefined) common.setDebug(options.parent.debug)
 
 		console.log('Clearing...')
 		plugins.clear()
