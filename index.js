@@ -31,7 +31,7 @@ program
 
 		if (options.save === true && options.http === undefined && options.https === undefined) common.error(2, 'Cannot save without http or https definition')
 		if (options.http === undefined && options.https === undefined) {
-			var opts = common.loadSettings()
+			var opts = common.loadSettings(options)
 			if (opts === false) common.error(3, 'No configuration saved previously')
 			common.debug('Options loaded:', opts)
 		} else if(options.save) {

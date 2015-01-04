@@ -20,7 +20,7 @@ module.exports.error = function (errno, msg) {
 	process.exit(errno)
 }
 
-module.exports.loadSettings = function () {
+module.exports.loadSettings = function (options) {
 	var settings = {}
 		, keys = ['http', 'https', 'same']
 		, obj = {}
@@ -41,6 +41,7 @@ module.exports.loadSettings = function () {
 
 	keys.forEach(function (key) {
 		obj[key] = settings[key]
+		if (options !== undefined) options[key] = settings[key]
 	})
 	return obj
 }
@@ -53,7 +54,7 @@ module.exports.saveSettings = function (options) {
 	keys.forEach(function (key) {
 		settings[key] = options[key]
 	})
-	console.log('settings=', JSON.stringify(settings))
+	module.exports.debug('settings=', JSON.stringify(settings))
 
 	fs.writeFile('./settings.json', JSON.stringify(settings), function (err) {
 		if (err) {
