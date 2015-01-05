@@ -68,7 +68,7 @@ program
 		common.debug('HOME=', options.home)
 
 		console.log('Clearing...')
-		plugins.clear()
+		plugins.clear(options)
 	})
 
 program.parse(process.argv)

@@ -17,8 +17,8 @@ var loadPlugins = function (options, methodName) {
 	})
 }
 
-module.exports.clear = function () {
-	loadPlugins(undefined, 'clear')
+module.exports.clear = function (options) {
+	loadPlugins(options, 'clear')
 }
 
 module.exports.setup = function (options) {
