@@ -64,6 +64,9 @@ program
 		})
 		if (options !== undefined) common.setDebug(options.parent.debug)
 
+		options.home = process.env.HOME
+		common.debug('HOME=', options.home)
+
 		console.log('Clearing...')
 		plugins.clear()
 	})
