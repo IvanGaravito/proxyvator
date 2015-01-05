@@ -4,7 +4,7 @@
   "description": "Configures environment when developing behind a proxy",
   "main": "index.js",
   "bin": {
-    "proxyvator": "./index.js"
+    "proxyvator": "bin/proxyvator.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
