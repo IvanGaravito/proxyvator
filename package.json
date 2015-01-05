@@ -19,7 +19,7 @@
     "bower",
     "git"
   ],
-  "author": "Ivan Garavito",
+  "author": "Ivan Garavito <ivangaravito@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/IvanGaravito/proxyvator/issues"
