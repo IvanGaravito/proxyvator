@@ -1,15 +1,16 @@
 var fs = require('fs')
+	, path = require('path')
 	, plugins = []
 
 var loadPlugins = function (options, methodName) {
 	console.log('Loading plugins...')
-	fs.readdir('./plugins', function (err, files) {
+	fs.readdir(path.join(__dirname, 'plugins'), function (err, files) {
 		if (!err) {
 			var plugins = files.filter(function (v) {
 				return v !== '.' && v !== '..'
 			})
 			plugins.forEach(function (pluginFile) {
-				var plugin = require('./plugins/' + pluginFile)
+				var plugin = require(path.join(__dirname, 'plugins', pluginFile))
 				console.log('Plugin ' + plugin.name + ' loaded. Calling ' + methodName + ' for this plugin...')
 				plugin[methodName](options)
 			})
