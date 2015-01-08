@@ -1,4 +1,5 @@
 var fs = require('fs')
+	, path = require('path')
 
 var debugMode = false
 	, each = Array.prototype.forEach
@@ -28,7 +29,7 @@ module.exports.loadSettings = function (options) {
 	console.log('Loading settings...')
 
 	try {
-		settings = fs.readFileSync('./settings.json')
+		settings = fs.readFileSync(path.join(__dirname, 'settings.json'))
 		settings = JSON.parse(settings)
 		props = Object.getOwnPropertyNames(settings)
 	} catch (e) {
@@ -56,7 +57,7 @@ module.exports.saveSettings = function (options) {
 	})
 	module.exports.debug('settings=', JSON.stringify(settings))
 
-	fs.writeFile('./settings.json', JSON.stringify(settings), function (err) {
+	fs.writeFile(path.join(__dirname, 'settings.json'), JSON.stringify(settings), function (err) {
 		if (err) {
 			console.log('Warning: Cannot write settings to settings.json')
 		} else {
