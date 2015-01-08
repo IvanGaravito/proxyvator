@@ -34,9 +34,7 @@ handlerFile = function () {
 		}
 
 		var data = buffer.toString()
-		data = data.replace('[http]', '')
-		data = data.replace('[https]', '')
-		data = data.replace(os.EOL + os.EOL, '')
+		data = data.replace(/\[https?\](\n|\r\n|\r)/g, '')
 
 		fs.writeFile(file, data, function (err) {
 			if (err) {
