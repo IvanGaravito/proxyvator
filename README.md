@@ -1,6 +1,9 @@
 proxyvator
 ==========
 
+[![NPM pkg](https://img.shields.io/npm/v/proxyvator.svg)](https://www.npmjs.com/package/proxyvator)
+[![NPM dm](https://img.shields.io/npm/dm/proxyvator.svg)](https://www.npmjs.com/package/proxyvator)
+
 Configures environment when developing behind a proxy
 
 ## Quick Start
