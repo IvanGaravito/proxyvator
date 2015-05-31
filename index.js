@@ -50,7 +50,9 @@ program
 		common.debug('HOME=', options.home)
 
 		console.log('Setting up...')
-		plugins.setup(options)
+		plugins
+			.init(options)
+			.setup(options)
 	})
 
 program
@@ -68,7 +70,9 @@ program
 		common.debug('HOME=', options.home)
 
 		console.log('Clearing...')
-		plugins.clear(options)
+		plugins
+			.init(options)
+			.clear(options)
 	})
 
 program.parse(process.argv)
