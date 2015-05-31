@@ -1,6 +1,6 @@
 {
   "name": "proxyvator",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Configures environment when developing behind a proxy",
   "main": "index.js",
   "bin": {
