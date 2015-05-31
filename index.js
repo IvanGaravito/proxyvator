@@ -12,6 +12,15 @@ program
   .option('--debug', 'output debbuging messages')
 
 program
+	.command('plugins')
+	.description('list proxyvator plugins installed')
+	.action(function () {
+		plugins
+			.init()
+			.list()
+	})
+
+program
 	.command('setup')
 	.description('setup configuration for developing behind the proxy')
   .option('--http <url>', 'set url for http proxy (e.g. http://myproxy.com:8080)', common.urlValidator)
