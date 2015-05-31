@@ -15,9 +15,7 @@
   },
   "keywords": [
     "proxy",
-    "npm",
-    "bower",
-    "git"
+    "proxyvator"
   ],
   "author": "Ivan Garavito <ivangaravito@gmail.com>",
   "license": "MIT",
