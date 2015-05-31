@@ -15,9 +15,7 @@ program
 	.command('plugins')
 	.description('list proxyvator plugins installed')
 	.action(function () {
-		plugins
-			.init()
-			.list()
+		plugins.list()
 	})
 
 program
@@ -59,9 +57,7 @@ program
 		common.debug('HOME=', options.home)
 
 		console.log('Setting up...')
-		plugins
-			.init(options)
-			.setup(options)
+		plugins.setup(options)
 	})
 
 program
@@ -79,9 +75,7 @@ program
 		common.debug('HOME=', options.home)
 
 		console.log('Clearing...')
-		plugins
-			.init(options)
-			.clear(options)
+		plugins.clear(options)
 	})
 
 program.parse(process.argv)

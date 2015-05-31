@@ -1,27 +1,75 @@
 var fs = require('fs')
-	, path = require('path')
-	, plugins = []
+  , path = require('path')
+  , common = require('./common')
 
-var loadPlugins = function (options, methodName) {
-	console.log('Loading plugins...')
-	fs.readdir(path.join(__dirname, 'plugins'), function (err, files) {
-		if (!err) {
-			var plugins = files.filter(function (v) {
-				return v !== '.' && v !== '..'
-			})
-			plugins.forEach(function (pluginFile) {
-				var plugin = require(path.join(__dirname, 'plugins', pluginFile))
-				console.log('Plugin ' + plugin.name + ' loaded. Calling ' + methodName + ' for this plugin...')
-				plugin[methodName](options)
-			})
-		}
-	})
+// Global options
+var options
+
+// Internal functions
+var exec, find, init, show
+
+// Interface methods
+var clear, list, setup
+
+
+exec = function (pluginName, methodName) {
+  var plugin, pluginPath
+
+  pluginPath = options.pluginPath
+  plugin = require(path.join(pluginPath, pluginName))
+  console.log('Calling ' + pluginName + '::' + methodName + '...')
+  plugin[methodName](options)
 }
 
-module.exports.clear = function (options) {
-	loadPlugins(options, 'clear')
+find = function (callback) {
+  var pluginPath
+
+  pluginPath = options.pluginPath
+  callback = callback || show
+  fs.readdir(pluginPath, function (err, files) {
+    if (!err) {
+      var plugins
+      plugins = files.filter(function (f) {
+        return /^proxyvator[-]/.test(f)
+      })
+      callback(plugins)
+    }
+  })
 }
 
-module.exports.setup = function (options) {
-	loadPlugins(options, 'setup')
+init = function (opts) {
+  options = opts || {}
+  options.pluginPath = options.pluginPath || path.dirname(__dirname)
+}
+
+show = function (plugins) {
+  console.log('Plugin list')
+  console.log('-----------\n')
+  plugins.forEach(function (plugin) {
+    console.log('*', plugin)
+  })
+  console.log('\n')
+}
+
+exports.clear = function (options) {
+  init(options)
+  find(function (plugins) {
+    plugins.forEach(function (plugin) {
+      exec(plugin, 'clear')
+    })
+  })
+}
+
+exports.list = function (options) {
+  init(options)
+  find()
+}
+
+exports.setup = function (options) {
+  init(options)
+  find(function (plugins) {
+    plugins.forEach(function (plugin) {
+      exec(plugin, 'setup')
+    })
+  })
 }

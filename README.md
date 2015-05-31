@@ -16,11 +16,14 @@ $ npm install -g proxyvator
 
 ## Current Support
 
-By this version, `proxyvator` supports configuring next apps:
+Before version `1.0.0`, `proxyvator` had internal support for configuring:
 * `git`
-* `node.js`
 * `npm.js`
 * `bower`
+
+From version `1.0.0`, it was changed in favor to support plugins as global npm modules. This way you can have installed the plugins you only need.
+
+Visit [npm.js](https://wwww.npmjs.com/) to search for proxyvator plugins, these are named starting with `proxyvator-` then the plugin name (e.g. proxyvator-git, proxyvator-npm)
 
 ## Usage
 
@@ -32,6 +35,7 @@ $ proxyvator
 
   Commands:
 
+    plugins           list proxyvator plugins installed
     setup [options]   setup configuration for developing behind the proxy
     clear             clear configuration for developing behind the proxy
 
@@ -42,7 +46,8 @@ $ proxyvator
     --debug        output debbuging messages
 ```
 
-`proxyvator` has two commands:
+`proxyvator` has three commands:
+* `plugins` which lists the installed plugins.
 * `setup` which sets up the configuration for developing behind the proxy specified or saved prevoiusly.
 * `clean` which cleans the configuration for using direct connection.
 
